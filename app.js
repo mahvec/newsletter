@@ -1,16 +1,18 @@
 const express = require('express');
-const bodyParser = require('body-parser');
-const request = require('request');
-const https = require('https');
+const cors = require('cors')
+
 
 const app = express();
 
 app.use(express.static('public'));
 
-app.use(bodyParser.urlencoded({extended: true})); 
+app.use(express.json());
+app.use(express.urlencoded({extended: true}));
+
+app.use(cors());
 
 app.get('/', function(req, res) {
-    res.sendFile(__dirname + '/signup.html');
+    res.sendFile(__dirname + '/views/signup.html');
 });
 
 app.post('/', function (req, res) {
@@ -45,10 +47,10 @@ app.post('/', function (req, res) {
     const request = https.request(url, options, function(response){
         
       if ( response.statusCode ===200) {
-            res.sendFile(__dirname + '/success.html')
+            res.sendFile(__dirname + '/views/success.html')
        }
        else {
-        res.sendFile(__dirname + '/failure.html')
+        res.sendFile(__dirname + '/views/failure.html')
        }
         
         response.on('data', function(data) {
